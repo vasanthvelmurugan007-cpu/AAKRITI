@@ -24,4 +24,4 @@ COPY . .
 EXPOSE 8000
 
 # Use Gunicorn + Uvicorn worker for production
-CMD ["gunicorn", "asgi:app", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
+CMD ["python", "-m", "gunicorn", "asgi:app", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
