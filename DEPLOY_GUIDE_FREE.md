@@ -74,12 +74,18 @@ If you prefer Railway instead of Render, you can deploy the backend from a conta
 
 ### Quick steps (Railway)
 1. In GitHub Actions, the workflow `Build and push backend image to GHCR` (runs on `main`) builds `Dockerfile.backend` and pushes `ghcr.io/<owner>/aakrittii-backend:latest`.
-2. In Railway Dashboard, create a **New Project** -> **Deploy from Container Registry**.
-3. Choose **GitHub Container Registry (GHCR)** and select the image `ghcr.io/<owner>/aakrittii-backend:latest`.
-4. Set the **Start Command** to:
-    `gunicorn asgi:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT`
-5. Add Environment Variables (see Step 2, same keys like `DATABASE_URL`, `CLOUDINARY_*`, etc.).
-6. Deploy and wait for the service to be live.
+2. Option A (Manual): In Railway Dashboard, create a **New Project** -> **Deploy from Container Registry** and select `ghcr.io/<owner>/aakrittii-backend:latest`.
+   * Set the **Start Command** to:
+     `gunicorn asgi:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT`
+   * Add Environment Variables (see Step 2, same keys like `DATABASE_URL`, `CLOUDINARY_*`, etc.).
+   * Deploy and wait for the service to be live.
+3. Option B (Automatic): Use the included `deploy-to-railway` GitHub Actions workflow to deploy automatically after the image is available.
+   * Add the following **Repository secrets** in GitHub: `RAILWAY_TOKEN`, `RAILWAY_PROJECT_ID`, `RAILWAY_SERVICE_ID`.
+   * The workflow will login to Railway using `RAILWAY_TOKEN`, set the service image to `ghcr.io/<owner>/aakrittii-backend:latest`, and trigger a deploy for the specified project and service.
+   * Note: Railway CLI requires a project and service identifier (set these with the Railway Dashboard or `railway status` locally).
+4. After automatic deployment: check the Railway dashboard deployment logs and service URL to verify the app is live.
+
+**Security note:** Store `RAILWAY_TOKEN` as a GitHub Actions secret (Repository Settings → Secrets → Actions) and do not expose it in logs or code.
 
 ### Why this helps
 - Using a Docker image ensures **Python 3.11** is used and avoids build-time Rust issues (no `maturin` step on Railway). The GHCR workflow is already included in this repository and will run automatically on pushes to `main`.

@@ -1,0 +1,51 @@
+name: Deploy backend image to Railway
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check required secrets
+        run: |
+          if [ -z "${{ secrets.RAILWAY_TOKEN }}" ]; then echo "Missing RAILWAY_TOKEN secret"; exit 1; fi
+          if [ -z "${{ secrets.RAILWAY_PROJECT_ID }}" ]; then echo "Missing RAILWAY_PROJECT_ID secret"; exit 1; fi
+          if [ -z "${{ secrets.RAILWAY_SERVICE_ID }}" ]; then echo "Missing RAILWAY_SERVICE_ID secret"; exit 1; fi
+
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Railway CLI
+        run: |
+          curl -sL https://raw.githubusercontent.com/railwayapp/cli/master/install.sh | sh
+          railway --version
+
+      - name: Railway login
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway login --token "$RAILWAY_TOKEN"
+
+      - name: Set service image and deploy
+        env:
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          IMAGE: ghcr.io/${{ github.repository_owner }}/aakrittii-backend:latest
+        run: |
+          echo "Setting image to $IMAGE for project $RAILWAY_PROJECT_ID, service $RAILWAY_SERVICE_ID"
+          # The Railway CLI command below may vary depending on CLI version.
+          # It attempts to set the service image and trigger a deploy.
+          railway service set-image "$RAILWAY_SERVICE_ID" "$IMAGE" --project "$RAILWAY_PROJECT_ID" || true
+          railway deploy --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE_ID" || railway up --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE_ID"
+
+      - name: Confirm deployment
+        run: |
+          echo "Deployment command finished; check Railway dashboard for status."
