@@ -1,0 +1,70 @@
+.essence-section {
+    padding: 8rem 0 4rem 0;
+    position: relative;
+    z-index: 10;
+    background: transparent;
+}
+
+.essence-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 60px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(201, 168, 117, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.essence-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(201, 168, 117, 0.3);
+}
+
+.section-header {
+    margin-bottom: 40px;
+}
+
+/* section-title is global now, removed local override */
+
+.divider-gold {
+    display: none;
+    /* Deprecated in favor of ::after on title */
+}
+
+.essence-text {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: 32px;
+}
+
+.essence-quote {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--color-gold-light);
+    position: relative;
+    padding: 0 20px;
+}
+
+.essence-quote::before,
+.essence-quote::after {
+    content: '"';
+    font-size: 3rem;
+    color: var(--color-gold);
+    opacity: 0.3;
+    position: absolute;
+    top: -10px;
+    font-family: serif;
+}
+
+.essence-quote::before {
+    left: -20px;
+}
+
+.essence-quote::after {
+    right: -20px;
+}

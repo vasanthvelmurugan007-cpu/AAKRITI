@@ -1,0 +1,106 @@
+/* src/components/Footer.css */
+.footer {
+    padding: 60px 0 40px;
+    background: var(--color-earth-dark);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+.footer-logo {
+    font-family: var(--font-heading);
+    display: flex;
+    flex-direction: column;
+    /* Stacked looks better for footer, or row? Let's check previous code. The previous code had just text. Let's do row to match header or stack? Standard footer is often stacked or side-by-side. Let's do centered flex column for the logo block since footer is text-align: center */
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.footer-logo-img {
+    height: 80px;
+    width: auto;
+    margin-bottom: 12px;
+}
+
+.footer-logo-text {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--color-gold);
+    letter-spacing: 2px;
+    font-weight: 700;
+    background: linear-gradient(to right, var(--color-gold-light), var(--color-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.footer-links a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--color-gold);
+}
+
+.admin-login-link {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.5;
+    transition: all 0.3s;
+    margin-left: 12px;
+}
+
+.admin-login-link:hover {
+    color: var(--color-gold);
+    opacity: 1;
+}
+
+.admin-badge {
+    color: var(--color-gold);
+    font-size: 0.8rem;
+    border: 1px solid var(--color-gold);
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-left: 12px;
+}
+
+.separator {
+    opacity: 0.5;
+}
+
+.sanskrit-wrapper {
+    margin-bottom: 32px;
+}
+
+.sanskrit-text {
+    font-size: 1.8rem;
+    color: var(--color-gold-light);
+    margin-bottom: 4px;
+    font-family: serif;
+    /* Fallback for Devanagari often works better with serif */
+}
+
+.sanskrit-trans {
+    font-size: 0.9rem;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.copyright {
+    font-size: 0.8rem;
+    opacity: 0.5;
+    margin-top: 40px;
+}

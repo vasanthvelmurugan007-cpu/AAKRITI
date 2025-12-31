@@ -1,0 +1,138 @@
+/* src/components/Header.css */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 20px 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+    /* Dark fade for visibility */
+}
+
+/* Scrolled state creates a premium "Bar" effect */
+.header.scrolled {
+    padding: 12px 0;
+    background: rgba(30, 24, 16, 0.98);
+    /* Much darker, nearly opaque brown */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    /* Brighter border */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo-full-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.logo-text {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+    margin-left: 4px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    /* Stronger shadow */
+}
+
+.logo-text span {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: var(--color-gold);
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-link {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    /* Bolder */
+    color: #ffffff;
+    /* Pure white */
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s;
+    padding: 8px 0;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    /* Added shadow for legibility */
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-gold);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link:hover {
+    color: #ffffff;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.donate-btn {
+    padding: 10px 24px;
+    background: var(--color-gold);
+    color: var(--color-earth-dark);
+    font-weight: 600;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(201, 168, 117, 0.3);
+}
+
+.donate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(201, 168, 117, 0.5);
+    background: #ffffff;
+}
+
+.mobile-toggle {
+    display: none;
+    background: none;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .desktop-nav {
+        display: none;
+    }
+
+    .mobile-toggle {
+        display: block;
+    }
+}
