@@ -53,3 +53,8 @@ server/uploads/*
 server/thumbnails/*
 !server/uploads/.gitkeep
 !server/thumbnails/.gitkeep
+
+# Generated server outputs / logs
+env_check_output.txt
+server_output*.txt
+server_output_cmd.txt

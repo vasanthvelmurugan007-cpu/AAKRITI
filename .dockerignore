@@ -19,3 +19,8 @@ Dockerfile
 .vscode/
 .idea/
 .DS_Store
+
+# Generated server outputs / logs
+env_check_output.txt
+server_output*.txt
+server_output_cmd.txt
