@@ -29,8 +29,8 @@ This guide uses the **Easiest & Completely Free** stack recommended for your Rea
 3.  Click **New +** -> **Web Service**.
 4.  Connect your GitHub repository.
 5.  **Settings**:
-    *   **Runtime**: Python 3
-    *   **Build Command**: `pip install -r requirements.txt`
+    *   **Runtime**: Python **3.11.x** (set this in the Render Dashboard). This repository enforces Python 3.11; if Render uses 3.13 the build may fail.
+    *   **Build Command**: `bash -lc './scripts/render-build.sh'` (this checks Python and installs dependencies)
     *   **Start Command**: `gunicorn asgi:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT`
 6.  **Environment Variables** (Scroll down to "Advanced"):
     Add these keys and values:
@@ -40,7 +40,7 @@ This guide uses the **Easiest & Completely Free** stack recommended for your Rea
     *   `CLOUDINARY_API_KEY` -> (Your Key)
     *   `CLOUDINARY_API_SECRET` -> (Your Secret)
     *   `ALLOWED_ORIGINS` -> `*` (Or your Vercel URL later)
-    *   `PYTHON_VERSION` -> `3.11.5`
+    *   `PYTHON_VERSION` -> `3.11.x` (optional; match the Render Runtime)
 7.  Click **Create Web Service**.
 8.  **Wait** for it to deploy. Once "Live", copy the **backend URL** (e.g., `https://aakrittii-api.onrender.com`).
 
