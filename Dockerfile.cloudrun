@@ -1,0 +1,36 @@
+# Backend Dockerfile for Cloud Run
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PORT=8080
+
+WORKDIR /app
+
+# Install system dependencies needed to build binary wheels
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc \
+    libpq-dev \
+    libjpeg-dev \
+    zlib1g-dev \
+    libffi-dev \
+    libssl-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+# Copy and install only runtime dependencies (prod requirements)
+COPY requirements-prod.txt ./requirements-prod.txt
+RUN python -m pip install --upgrade pip setuptools wheel \
+  && python -m pip install --no-cache-dir -r requirements-prod.txt
+
+# Copy application source
+COPY . .
+
+# Create an unprivileged user and fix permissions
+RUN useradd --create-home --shell /bin/bash appuser && chown -R appuser /app
+USER appuser
+
+EXPOSE 8080
+
+# Use Gunicorn with Uvicorn worker; Cloud Run provides $PORT
+CMD ["python", "-m", "gunicorn", "asgi:app", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:$PORT", "--workers", "2", "--timeout", "120", "--access-logfile", "-"]
