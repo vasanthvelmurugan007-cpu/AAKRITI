@@ -1,0 +1,47 @@
+name: Deploy to Google Cloud Run
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT }}
+
+      - name: Configure Docker authentication for GCR
+        run: gcloud auth configure-docker
+
+      - name: Build and push image (Cloud Build)
+        run: |
+          gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT }}/aakrittii-backend:${{ github.sha }} -f Dockerfile.cloudrun .
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy aakrittii-backend \
+            --image gcr.io/${{ secrets.GCP_PROJECT }}/aakrittii-backend:${{ github.sha }} \
+            --region ${{ secrets.GCP_REGION }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --set-env-vars ENV=production,PORT=8080 \
+            --memory 512Mi \
+            --concurrency 80 \
+            --min-instances 0 \
+            --max-instances 5
+
+      - name: Output service URL
+        run: |
+          gcloud run services describe aakrittii-backend --region ${{ secrets.GCP_REGION }} --format 'value(status.url)'
