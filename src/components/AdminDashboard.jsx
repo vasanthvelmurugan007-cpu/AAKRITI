@@ -11,12 +11,14 @@ const AdminDashboard = ({ user, onClose }) => {
     const [formData, setFormData] = useState({});
     const [isAdding, setIsAdding] = useState(false);
     const [fileSize, setFileSize] = useState(0);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         fetchData();
     }, [activeTab]);
 
     const fetchData = async () => {
+        setError('');
         try {
             let endpoint = '';
             switch (activeTab) {
@@ -32,6 +34,7 @@ const AdminDashboard = ({ user, onClose }) => {
             setData(result);
         } catch (err) {
             console.error("Error fetching data:", err);
+            setError("Failed to load data. Is the backend running? " + err.message);
         }
     };
 
@@ -204,6 +207,11 @@ const AdminDashboard = ({ user, onClose }) => {
                 </div>
 
                 <div className="admin-content">
+                    {error && (
+                        <div style={{ background: '#ff4d4d', color: 'white', padding: '10px', marginBottom: '15px', borderRadius: '5px' }}>
+                            Error: {error}
+                        </div>
+                    )}
                     <div className="content-actions">
                         <h3>Managing {activeTab}</h3>
                         {activeTab !== 'volunteers' && !editingId && (
