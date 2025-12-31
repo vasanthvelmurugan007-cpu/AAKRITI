@@ -1,6 +1,21 @@
+# Node / frontend
 node_modules
 dist
-.git
+build
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
 .env
+.env.*
+
+# Git
+.git
 Dockerfile
 .dockerignore
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store

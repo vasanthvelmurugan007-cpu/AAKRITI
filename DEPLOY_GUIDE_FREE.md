@@ -66,3 +66,22 @@ This guide uses the **Easiest & Completely Free** stack recommended for your Rea
 2.  Go to `/login`.
 3.  Login with: `admin` / `admin`.
 4.  If it works, you are **LIVE**!
+
+---
+
+## Alternative: Deploy Backend to Railway using Docker image (recommended)
+If you prefer Railway instead of Render, you can deploy the backend from a container image. We provide a `Dockerfile.backend` and a GitHub Actions workflow that builds and pushes the image to GitHub Container Registry (`ghcr.io`).
+
+### Quick steps (Railway)
+1. In GitHub Actions, the workflow `Build and push backend image to GHCR` (runs on `main`) builds `Dockerfile.backend` and pushes `ghcr.io/<owner>/aakrittii-backend:latest`.
+2. In Railway Dashboard, create a **New Project** -> **Deploy from Container Registry**.
+3. Choose **GitHub Container Registry (GHCR)** and select the image `ghcr.io/<owner>/aakrittii-backend:latest`.
+4. Set the **Start Command** to:
+    `gunicorn asgi:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT`
+5. Add Environment Variables (see Step 2, same keys like `DATABASE_URL`, `CLOUDINARY_*`, etc.).
+6. Deploy and wait for the service to be live.
+
+### Why this helps
+- Using a Docker image ensures **Python 3.11** is used and avoids build-time Rust issues (no `maturin` step on Railway). The GHCR workflow is already included in this repository and will run automatically on pushes to `main`.
+
+If you want, I can also add a Railway deployment workflow to trigger the deploy automatically after image push (requires adding Railway project token as a GitHub secret).
