@@ -17,7 +17,7 @@ pydantic-settings==2.1.0
 # Authentication & Security
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
-cryptography==42.0.0
+cryptography>=41.0.0
 
 # File Upload & Image Processing
 cloudinary==1.41.0
