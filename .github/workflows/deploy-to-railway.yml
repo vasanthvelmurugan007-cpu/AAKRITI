@@ -11,12 +11,21 @@ jobs:
 
     steps:
       - name: Check required secrets
+        id: check_secrets
         run: |
-          if [ -z "${{ secrets.RAILWAY_TOKEN }}" ]; then echo "Missing RAILWAY_TOKEN secret"; exit 1; fi
-          if [ -z "${{ secrets.RAILWAY_PROJECT_ID }}" ]; then echo "Missing RAILWAY_PROJECT_ID secret"; exit 1; fi
-          if [ -z "${{ secrets.RAILWAY_SERVICE_ID }}" ]; then echo "Missing RAILWAY_SERVICE_ID secret"; exit 1; fi
+          missing=false
+          if [ -z "${{ secrets.RAILWAY_TOKEN }}" ]; then echo "Missing RAILWAY_TOKEN secret"; missing=true; fi
+          if [ -z "${{ secrets.RAILWAY_PROJECT_ID }}" ]; then echo "Missing RAILWAY_PROJECT_ID secret"; missing=true; fi
+          if [ -z "${{ secrets.RAILWAY_SERVICE_ID }}" ]; then echo "Missing RAILWAY_SERVICE_ID secret"; missing=true; fi
+          if [ "$missing" = true ]; then echo "RAILWAY_SECRETS_PRESENT=false" >> $GITHUB_ENV; else echo "RAILWAY_SECRETS_PRESENT=true" >> $GITHUB_ENV; fi
+
+      - name: Skip deploy (no Railway secrets)
+        if: env.RAILWAY_SECRETS_PRESENT == 'false'
+        run: |
+          echo "Railway secrets not found; skipping deploy. Add RAILWAY_TOKEN, RAILWAY_PROJECT_ID, RAILWAY_SERVICE_ID in repository secrets to enable deploy."
 
       - name: Login to GHCR
+        if: env.RAILWAY_SECRETS_PRESENT == 'true'
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
@@ -24,17 +33,20 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Railway CLI
+        if: env.RAILWAY_SECRETS_PRESENT == 'true'
         run: |
           curl -sL https://raw.githubusercontent.com/railwayapp/cli/master/install.sh | sh
           railway --version
 
       - name: Railway login
+        if: env.RAILWAY_SECRETS_PRESENT == 'true'
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           railway login --token "$RAILWAY_TOKEN"
 
       - name: Set service image and deploy
+        if: env.RAILWAY_SECRETS_PRESENT == 'true'
         env:
           RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
           RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
@@ -47,5 +59,6 @@ jobs:
           railway deploy --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE_ID" || railway up --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE_ID"
 
       - name: Confirm deployment
+        if: env.RAILWAY_SECRETS_PRESENT == 'true'
         run: |
           echo "Deployment command finished; check Railway dashboard for status."
