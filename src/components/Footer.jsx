@@ -16,10 +16,8 @@ const Footer = ({ onOpenLogin, user }) => {
                     <a href="#">Terms of Use</a>
                     <span className="separator">•</span>
                     <a href="#">Contact</a>
-                    {user ? (
+                    {user && (
                         <span className="admin-badge">Admin Mode</span>
-                    ) : (
-                        <button onClick={onOpenLogin} className="admin-login-link">Admin Login</button>
                     )}
                 </div>
 

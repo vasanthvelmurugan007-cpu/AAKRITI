@@ -36,6 +36,18 @@ function App() {
     return () => unsubscribe();
   }, [user]);
 
+  // Secret Admin Access Shortcut: Ctrl + Shift + L
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l')) {
+        e.preventDefault();
+        setIsLoginOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const handleAdminClose = () => {
     setIsAdminOpen(false);
     setContentVersion(prev => prev + 1); // Trigger re-fetch
