@@ -18,7 +18,7 @@ const Hero = () => {
                     transition={{ duration: 1.2, ease: "easeOut" }}
                 >
                     <h1 className="hero-title">
-                        <span style={{ display: 'block', fontSize: '0.5em', marginBottom: '0.5em' }} className="gold-gradient">AAKRITII NGO</span>
+                        <span style={{ display: 'block', fontSize: '2em', marginBottom: '0.2em' }} className="gold-gradient">AAKRITII NGO</span>
                         <span>EMPOWER. TRANSFORM. </span>
                         <span className="gold-gradient">INSPIRE.</span>
                     </h1>
