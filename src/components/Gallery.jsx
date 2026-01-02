@@ -37,26 +37,25 @@ const Gallery = ({ user }) => {
     const [folders, setFolders] = useState([]);
     const [images, setImages] = useState([]);
     const [currentFolder, setCurrentFolder] = useState(null);
-    const [selectedImage, setSelectedImage] = useState(null);
-
-    // Upload Modal State
-    const [isUploadOpen, setIsUploadOpen] = useState(false);
-    const [uploadFiles, setUploadFiles] = useState([]);
-    const [uploadDesc, setUploadDesc] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     // Fetch Folders on Mount
     useEffect(() => {
+        setIsLoading(true);
         apiFetch('/api/folders')
             .then(data => setFolders(data))
-            .catch(err => console.error("API Error:", err));
+            .catch(err => console.error("API Error:", err))
+            .finally(() => setIsLoading(false));
     }, []);
 
     // Fetch Images when Folder Selected
     useEffect(() => {
         if (currentFolder) {
+            setIsLoading(true);
             apiFetch(`/api/images?folderId=${currentFolder.id}`)
                 .then(data => setImages(data))
-                .catch(err => console.error("API Error:", err));
+                .catch(err => console.error("API Error:", err))
+                .finally(() => setIsLoading(false));
         } else {
             setImages([]); // Clear images when no folder is selected
         }
@@ -70,6 +69,7 @@ const Gallery = ({ user }) => {
         const description = prompt("Enter folder description:");
 
         // API Call
+        setIsLoading(true);
         try {
             const newFolder = await apiFetch('/api/folders', {
                 method: 'POST',
@@ -81,6 +81,8 @@ const Gallery = ({ user }) => {
         } catch (err) {
             console.error(err);
             alert(`Failed to create folder: ${err.message}`);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -93,6 +95,7 @@ const Gallery = ({ user }) => {
     const performUpload = async () => {
         if (uploadFiles.length === 0) return;
 
+        setIsLoading(true);
         try {
             // Upload all files in parallel
             const uploadPromises = uploadFiles.map(async (file) => {
@@ -113,11 +116,14 @@ const Gallery = ({ user }) => {
         } catch (err) {
             console.error(err);
             alert(`Upload failed: ${err.message}`);
+        } finally {
+            setIsLoading(false);
         }
     };
     const handleDeleteFolder = async (folderId, e) => {
         e.stopPropagation();
         if (confirm("Delete this folder?")) {
+            setIsLoading(true);
             try {
                 await apiFetch(`/api/folders/${folderId}`, { method: 'DELETE' });
                 setFolders(folders.filter(f => f.id !== folderId));
@@ -127,6 +133,8 @@ const Gallery = ({ user }) => {
                 }
             } catch (err) {
                 alert(`Failed to delete folder: ${err.message}`);
+            } finally {
+                setIsLoading(false);
             }
         }
     };
@@ -134,24 +142,60 @@ const Gallery = ({ user }) => {
     const handleDeleteImage = async (imgId, e) => {
         e.stopPropagation();
         if (confirm("Delete this image?")) {
+            setIsLoading(true);
             try {
                 await apiFetch(`/api/images/${imgId}`, { method: 'DELETE' });
                 setImages(images.filter(i => i.id !== imgId));
             } catch (err) {
                 alert(`Failed to delete image: ${err.message}`);
+            } finally {
+                setIsLoading(false);
             }
         }
     };
 
     // --------------------------------------------------------------------------
 
-    // filteredImages is no longer needed as images are fetched per folder
-    // const filteredImages = currentFolder
-    //     ? images.filter(img => img.folderId === currentFolder.id)
-    //     : [];
-
     return (
-        <section id="gallery" className="gallery-section">
+        <section id="gallery" className="gallery-section" style={{ position: 'relative', zIndex: 20 }}>
+            {/* Loading Overlay */}
+            <AnimatePresence>
+                {isLoading && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            background: 'rgba(0,0,0,0.7)',
+                            zIndex: 9999,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'var(--color-gold)',
+                            fontSize: '1.5rem',
+                            fontWeight: 'bold',
+                            flexDirection: 'column',
+                            gap: '1rem'
+                        }}
+                    >
+                        <div className="spinner" style={{
+                            width: '50px',
+                            height: '50px',
+                            border: '4px solid rgba(201, 168, 117, 0.3)',
+                            borderTop: '4px solid var(--color-gold)',
+                            borderRadius: '50%',
+                            animation: 'spin 1s linear infinite'
+                        }}></div>
+                        <span>Processing...</span>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <div className="container">
                 <motion.div
                     className="section-header"
