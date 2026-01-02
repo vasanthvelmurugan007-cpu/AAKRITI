@@ -250,4 +250,18 @@
         padding: 0 20px;
         font-size: 1rem;
     }
+
+    .hero-background {
+        /* Mobile adjustment: Focus on the center/top to show faces if present */
+        background-position: center top;
+        /* Disable zoom animation on mobile to keep image stable and fully visible */
+        animation: none;
+    }
+
+    .hero-overlay {
+        /* Slightly more transparent on mobile to let image show through */
+        background: linear-gradient(to bottom,
+                rgba(26, 22, 18, 0.3) 0%,
+                rgba(26, 22, 18, 0.6) 100%);
+    }
 }
