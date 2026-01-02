@@ -169,6 +169,24 @@ const initTables = async () => {
             await db.run("INSERT INTO admin_users (email, password_hash, role) VALUES ('admin', 'Aakritii@2025', 'admin')");
             console.log("Default Admin User Created (admin/admin)");
         }
+
+        // Default Gallery
+        const folderRow = await db.get("SELECT count(*) as count FROM gallery_folders");
+        if (folderRow && folderRow.count === 0) {
+            const result = await db.run("INSERT INTO gallery_folders (name, description) VALUES (?, ?)",
+                ["Community Events", "Highlights from our recent community outreach programs."]);
+
+            // Use lastID from the insert result
+            const folderId = result.lastID;
+
+            if (folderId) {
+                await db.run("INSERT INTO gallery_images (folder_id, image_url, description) VALUES (?, ?, ?)",
+                    [folderId, "/pillar_education.jpg", "Education Drive at Local School"]);
+                await db.run("INSERT INTO gallery_images (folder_id, image_url, description) VALUES (?, ?, ?)",
+                    [folderId, "/pillar_nutrition.jpg", "Nutrition Support Program"]);
+                console.log("Seeded Default Gallery");
+            }
+        }
     } catch (err) {
         console.error("Table Init Error:", err);
     }
