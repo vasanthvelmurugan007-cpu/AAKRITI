@@ -38,6 +38,12 @@ const Gallery = ({ user }) => {
     const [images, setImages] = useState([]);
     const [currentFolder, setCurrentFolder] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    // Upload Modal State
+    const [isUploadOpen, setIsUploadOpen] = useState(false);
+    const [uploadFiles, setUploadFiles] = useState([]);
+    const [uploadDesc, setUploadDesc] = useState('');
 
     // Fetch Folders on Mount
     useEffect(() => {
