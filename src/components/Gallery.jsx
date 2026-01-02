@@ -324,7 +324,15 @@ const Gallery = ({ user }) => {
                                         transition={{ duration: 0.3 }}
                                         whileHover={{ y: -5 }}
                                     >
-                                        <img src={thumbUrl || fullUrl} alt={img.description} loading="lazy" />
+                                        <img
+                                            src={thumbUrl || fullUrl}
+                                            alt={img.description}
+                                            loading="lazy"
+                                            onError={(e) => {
+                                                e.target.onerror = null;
+                                                e.target.src = "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=400"; // Fallback
+                                            }}
+                                        />
                                         <div className="gallery-overlay">
                                             <p className="img-caption">{img.description}</p>
                                             {user && (

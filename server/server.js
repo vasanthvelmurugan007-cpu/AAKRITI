@@ -181,9 +181,9 @@ const initTables = async () => {
 
             if (folderId) {
                 await db.run("INSERT INTO gallery_images (folder_id, image_url, description) VALUES (?, ?, ?)",
-                    [folderId, "/pillar_education.jpg", "Education Drive at Local School"]);
+                    [folderId, "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000", "Education Drive at Local School"]);
                 await db.run("INSERT INTO gallery_images (folder_id, image_url, description) VALUES (?, ?, ?)",
-                    [folderId, "/pillar_nutrition.jpg", "Nutrition Support Program"]);
+                    [folderId, "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000", "Nutrition Support Program"]);
                 console.log("Seeded Default Gallery");
             }
         }
