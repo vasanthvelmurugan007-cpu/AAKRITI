@@ -252,10 +252,14 @@
     }
 
     .hero-background {
-        /* Mobile adjustment: Focus on the center/top to show faces if present */
-        background-position: center top;
-        /* Disable zoom animation on mobile to keep image stable and fully visible */
+        /* User Requirement: Show entire image without cropping */
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        /* Disable zoom animation on mobile to keep image stable */
         animation: none;
+        /* Ensure background color fills the rest */
+        background-color: var(--color-earth-dark);
     }
 
     .hero-overlay {
