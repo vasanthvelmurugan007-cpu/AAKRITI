@@ -32,6 +32,9 @@ const initDB = async () => {
                 filename: path.join(__dirname, 'database.sqlite'),
                 driver: sqlite3.Database
             });
+            // Enable WAL mode for better concurrency
+            await dbInstance.exec('PRAGMA journal_mode = WAL;');
+            await dbInstance.configure('busyTimeout', 3000);
             console.log("✅ Connected to SQLite");
         } catch (error) {
             console.error("❌ SQLite Connection Failed:", error);
