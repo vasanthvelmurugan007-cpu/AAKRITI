@@ -37,7 +37,7 @@ const Header = () => {
             <div className="container header-content">
                 <a href="#" className="logo">
                     <img src={logo} alt="AAKRITII NGO" className="logo-full-img" />
-                    <span className="logo-text">AAKRITII NGO</span>
+                    <span className="logo-text">AAKRITII</span>
                 </a>
 
                 <nav className="desktop-nav">
