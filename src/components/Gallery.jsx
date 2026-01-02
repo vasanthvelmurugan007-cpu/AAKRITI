@@ -80,7 +80,7 @@ const Gallery = ({ user }) => {
             setCurrentFolder(newFolder); // Auto-open to encourage upload
         } catch (err) {
             console.error(err);
-            alert("Failed to create folder");
+            alert(`Failed to create folder: ${err.message}`);
         }
     };
 
@@ -126,7 +126,7 @@ const Gallery = ({ user }) => {
                     setCurrentFolder(null);
                 }
             } catch (err) {
-                alert("Failed to delete folder");
+                alert(`Failed to delete folder: ${err.message}`);
             }
         }
     };
@@ -138,7 +138,7 @@ const Gallery = ({ user }) => {
                 await apiFetch(`/api/images/${imgId}`, { method: 'DELETE' });
                 setImages(images.filter(i => i.id !== imgId));
             } catch (err) {
-                alert("Failed to delete image");
+                alert(`Failed to delete image: ${err.message}`);
             }
         }
     };
