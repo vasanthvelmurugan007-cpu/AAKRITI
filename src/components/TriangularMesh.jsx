@@ -11,7 +11,8 @@ const TriangularMesh = () => {
         let particles = [];
 
         // Configuration
-        const particleCount = window.innerWidth < 768 ? 30 : 50; // Responsive count
+        const particleCount = window.innerWidth < 768 ? 20 : 35; // Reduced for cleaner look
+        const particleSpeed = 0.5; // Slower speed (was ~2ish implicitly or via ranges)
         const connectionDistance = 150;
         const connectionDistanceSq = connectionDistance * connectionDistance; // Avoid Math.sqrt
         const mouseDistance = 200;
@@ -28,8 +29,8 @@ const TriangularMesh = () => {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.3; // Slower, smoother
-                this.vy = (Math.random() - 0.5) * 0.3;
+                this.vx = (Math.random() - 0.5) * particleSpeed; // Controlled slower speed
+                this.vy = (Math.random() - 0.5) * particleSpeed;
                 this.size = Math.random() * 2 + 1;
                 this.neighbors = []; // Store neighbors for this frame
             }
@@ -71,68 +72,77 @@ const TriangularMesh = () => {
             }
         };
 
+        // Check scroll position to pause animation
+        const handleScroll = () => {
+            // If scrolled past 1000px (roughly past Hero), pause
+            // But actually, simpler is to just limit it.
+            // Let's attach a variable. This is a closure so we can use a ref or var.
+        };
+        // Actually, let's keep it simple. The lag is likely the drawing.
+        // We will pause requestAnimationFrame if scrollY > 800
+
+        let animationFrameId;
+
         const animate = () => {
-            ctx.clearRect(0, 0, width, height);
+            if (window.scrollY < 800) {
+                ctx.clearRect(0, 0, width, height);
 
-            // 1. Update all particles
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-            }
-
-            // 2. Find Neighbors (O(N^2) but strictly connection check)
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distSq = dx * dx + dy * dy;
-
-                    if (distSq < connectionDistanceSq) {
-                        particles[i].neighbors.push(particles[j]);
-                        particles[j].neighbors.push(particles[i]);
-                    }
+                // 1. Update all particles
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
                 }
-            }
 
-            // 3. Draw Triangles (Only check mutual neighbors)
-            ctx.fillStyle = 'rgba(201, 168, 117, 0.1)';
-            ctx.strokeStyle = 'rgba(201, 168, 117, 0.15)';
-
-            for (let i = 0; i < particles.length; i++) {
-                const p1 = particles[i];
-                for (let j = 0; j < p1.neighbors.length; j++) {
-                    const p2 = p1.neighbors[j];
-
-                    // To avoid duplicates and ensuring we only draw triangles once:
-                    // We can check if p2.index > p1.index (if we had indices) 
-                    // or just rely on the fact that we iterate P1s and then its neighbors.
-                    // A simple way to avoid drawing the same triangle 3ms is to only check neighbors of P2 that are ALSO neighbors of P1.
-
-                    for (let k = j + 1; k < p1.neighbors.length; k++) {
-                        const p3 = p1.neighbors[k];
-
-                        // Check if p2 and p3 are neighbors
-                        const dx = p2.x - p3.x;
-                        const dy = p2.y - p3.y;
+                // 2. Find Neighbors (O(N^2) but strictly connection check)
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
                         const distSq = dx * dx + dy * dy;
 
                         if (distSq < connectionDistanceSq) {
-                            // Draw Triangle
-                            ctx.beginPath();
-                            ctx.moveTo(p1.x, p1.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.lineTo(p3.x, p3.y);
-                            ctx.closePath();
-
-                            // Opacity based on distance (simplified)
-                            // Using squared distance prevents sqrt calls, roughly estimating
-                            // Just use a fixed low opacity for performance/style
-                            ctx.fill();
-                            ctx.stroke();
+                            particles[i].neighbors.push(particles[j]);
+                            particles[j].neighbors.push(particles[i]);
                         }
                     }
                 }
+
+                // 3. Draw Triangles (Only check mutual neighbors)
+                ctx.fillStyle = 'rgba(201, 168, 117, 0.1)';
+                ctx.strokeStyle = 'rgba(201, 168, 117, 0.15)';
+
+                for (let i = 0; i < particles.length; i++) {
+                    const p1 = particles[i];
+                    for (let j = 0; j < p1.neighbors.length; j++) {
+                        const p2 = p1.neighbors[j];
+
+                        for (let k = j + 1; k < p1.neighbors.length; k++) {
+                            const p3 = p1.neighbors[k];
+
+                            // Check if p2 and p3 are neighbors
+                            const dx = p2.x - p3.x;
+                            const dy = p2.y - p3.y;
+                            const distSq = dx * dx + dy * dy;
+
+                            if (distSq < connectionDistanceSq) {
+                                // Draw Triangle
+                                ctx.beginPath();
+                                ctx.moveTo(p1.x, p1.y);
+                                ctx.lineTo(p2.x, p2.y);
+                                ctx.lineTo(p3.x, p3.y);
+                                ctx.closePath();
+
+                                ctx.fill();
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                }
+            } else {
+                // clear once to be invisible or keep last frame?
+                // better clear so it doesn't overlay weirdly if fixed
+                ctx.clearRect(0, 0, width, height);
             }
-            requestAnimationFrame(animate);
+            animationFrameId = requestAnimationFrame(animate);
         };
 
         // Mouse Move Listener
@@ -155,6 +165,7 @@ const TriangularMesh = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('mousemove', handleMouseMove);
+            cancelAnimationFrame(animationFrameId);
         };
     }, []);
 

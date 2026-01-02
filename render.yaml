@@ -1,13 +1,10 @@
 services:
   - type: web
     name: aakrittii-backend
-    env: python
+    env: node
     plan: free
-    buildCommand: |
-      PY_VER=$(python -c 'import sys; print(f"{sys.version_info[0]}.{sys.version_info[1]}")')
-      if [ "$PY_VER" != "3.11" ]; then
-        echo "Error: Python 3.11 is required. Found $PY_VER"
-        exit 1
-      fi
-      ./scripts/render-build.sh
-    startCommand: python -m gunicorn asgi:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20.11.0

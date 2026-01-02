@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Lock, Loader } from 'lucide-react';
+import { X, Lock, Loader, Eye, EyeOff } from 'lucide-react';
 import { apiFetch } from '../utils/api';
 import './Login.css';
 
@@ -9,6 +9,7 @@ const Login = ({ isOpen, onClose, onLoginSuccess }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -64,13 +65,22 @@ const Login = ({ isOpen, onClose, onLoginSuccess }) => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
-                            <input
-                                type="password"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
+                            <div className="password-wrapper">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className="toggle-password"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
+                            </div>
                             <button type="submit" className="login-btn" disabled={loading}>
                                 {loading ? <Loader className="spin" size={20} /> : 'Login'}
                             </button>

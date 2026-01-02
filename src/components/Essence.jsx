@@ -14,17 +14,15 @@ const Essence = () => {
                     transition={{ duration: 0.8 }}
                 >
                     <div className="section-header">
-                        <h2 className="section-title">Our Essence</h2>
+                        <h2 className="section-title">About Aakritii</h2>
                     </div>
 
                     <p className="essence-text">
-                        Deep within the heart of India's tribal landscapes, we find resilience, wisdom,
-                        and an untold strength. Aakritii NGO is not just an organization; it is a bridge
-                        connecting ancient traditions with modern opportunities.
+                        Aakritii is a youth-driven NGO bringing voices of marginalized (especially tribal) communities to the forefront. We address challenges from generations of exclusion through sustainable models in education, nutrition, and livelihoods, aiming to enable dignity for children, leadership for women, and better futures for communities.
                     </p>
 
                     <blockquote className="essence-quote">
-                        "To empower a community is to honor its roots while watering its future."
+                        "Building resilient lives and inclusive spaces via grassroots collaboration."
                     </blockquote>
                 </motion.div>
             </div>

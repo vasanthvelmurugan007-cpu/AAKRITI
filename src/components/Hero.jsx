@@ -18,8 +18,8 @@ const Hero = () => {
                     transition={{ duration: 1.2, ease: "easeOut" }}
                 >
                     <h1 className="hero-title">
-                        <span className="block">AAKRITII</span>
-                        <span className="block gold-gradient">NGO</span>
+                        <span>EMPOWER. TRANSFORM. </span>
+                        <span className="gold-gradient">INSPIRE.</span>
                     </h1>
                 </motion.div>
 
@@ -29,7 +29,10 @@ const Hero = () => {
                     transition={{ duration: 1, delay: 0.5 }}
                 >
                     <p className="hero-quote">
-                        Empowering communities through education, reducing poverty, and ensuring sustainable livelihoods for a better tomorrow.
+                        A just and compassionate society where individuals from marginalized communities live with dignity, health, and purpose.
+                    </p>
+                    <p className="hero-subquote" style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.2rem', marginTop: '10px', fontStyle: 'italic' }}>
+                        Transforming hope into action!
                     </p>
                 </motion.div>
 
@@ -51,7 +54,7 @@ const Hero = () => {
             <div className="scroll-indicator">
                 <ArrowDown color="#c9a875" size={28} />
             </div>
-        </section>
+        </section >
     );
 };
 

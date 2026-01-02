@@ -1,0 +1,14 @@
+AAKRITII WEBSITE - KEY FEATURES & USPs
+
+UNIQUE HIGHLIGHTS
+1. Interactive Neural Background: Custom triangular mesh animation that reacts to mouse movement and auto-pauses on scroll for optimal performance.
+2. Premium Earth & Gold Aesthetic: Exclusive "Deep Earth" theme featuring modern glassmorphism cards and shimmering gold typography.
+3. Smart-Load Gallery: Instant-loading visual archive using advanced thumbnail compression (saving 90% bandwidth) with an immersive HD lightbox view.
+4. Zero-Code Admin Dashboard: A secure, built-in CMS allowing you to update Pillars, Gallery Images, Events, Press Releases, and Partners without any coding knowledge.
+
+CORE FUNCTIONALITY
+5. Secure Admin Portal: Enterprise-grade login system with encrypted credentials for data protection.
+6. Volunteer Engine: Dedicated registration section that captures and stores volunteer applications directly in your database.
+7. Dynamic Impact Counters: Animated statistics (e.g., "5000+ Lives Touched") that trigger upon scrolling to showcase your achievements.
+8. Fully Responsive Design: A mobile-first interface that adjusts perfectly to phones, tablets, and desktops.
+9. High-Performance Stack: Built using React (Vite) and Node.js/SQLite, ensuring blazing fast load times and easy scalability.

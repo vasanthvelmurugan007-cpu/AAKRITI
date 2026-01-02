@@ -152,9 +152,10 @@ const initTables = async () => {
         const row = await db.get("SELECT count(*) as count FROM pillars");
         if (row && row.count === 0) {
             const defaults = [
-                { title: "Education", description: "Lighting the path of knowledge for every child, bridging the gap between potential and opportunity.", image_url: "/pillar_education.jpg", icon: "BookOpen" },
-                { title: "Nutrition", description: "Nourishing bodies to fuel minds. Ensuring no child sleeps hungry through sustainable food security.", image_url: "/pillar_nutrition.jpg", icon: "Utensils" },
-                { title: "Livelihoods", description: "Empowering communities with skills and resources to build a self-reliant and dignified future.", image_url: "/pillar_livelihood.jpg", icon: "Users" }
+                { title: "Education", description: "Unlocking potential through foundational learning and life skills.", image_url: "/pillar_education.jpg", icon: "BookOpen" },
+                { title: "Support", description: "Providing encouragement, capacity-building, and presence for self-reliance.", image_url: "/pillar_nutrition.jpg", icon: "HandHeart" },
+                { title: "Hope", description: "Planting seeds of transformation through acts of kindness.", image_url: "/pillar_livelihood.jpg", icon: "Sun" },
+                { title: "Love", description: "Driven by compassion, respect, and empathy.", image_url: "/pillar_love.jpg", icon: "Heart" }
             ];
             for (const p of defaults) {
                 await db.run("INSERT INTO pillars (title, description, image_url, icon) VALUES (?, ?, ?, ?)", [p.title, p.description, p.image_url, p.icon]);
@@ -165,7 +166,7 @@ const initTables = async () => {
         // Default Admin
         const user = await db.get("SELECT * FROM admin_users WHERE email = 'admin'");
         if (!user) {
-            await db.run("INSERT INTO admin_users (email, password_hash, role) VALUES ('admin', 'admin', 'admin')");
+            await db.run("INSERT INTO admin_users (email, password_hash, role) VALUES ('admin', 'Aakritii@2025', 'admin')");
             console.log("Default Admin User Created (admin/admin)");
         }
     } catch (err) {
@@ -175,7 +176,7 @@ const initTables = async () => {
 
 initTables();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // -- 3. API ROUTES --
 
@@ -546,15 +547,20 @@ app.delete('/api/volunteers/:id', async (req, res) => {
 // -- LOGIN API --
 app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
+    console.log(`🔐 Login Attempt: Email='${email}', Password='${password}'`);
     try {
         const row = await db.get('SELECT * FROM admin_users WHERE email = ? AND password_hash = ?', [email, password]);
+        console.log("🔍 DB Result:", row);
         if (row) {
             const role = row.role || 'admin';
+            console.log("✅ Login Successful for:", email);
             res.json({ user: { email: row.email, id: row.id, role: role } });
         } else {
+            console.log("❌ Login Failed: Invalid Credentials");
             res.status(401).json({ message: 'Invalid Credentials' });
         }
     } catch (err) {
+        console.error("❌ Login Error:", err);
         res.status(500).json(err);
     }
 });

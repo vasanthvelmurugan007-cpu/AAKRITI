@@ -14,10 +14,10 @@
 /* Scrolled state creates a premium "Bar" effect */
 .header.scrolled {
     padding: 12px 0;
-    background: rgba(30, 24, 16, 0.98);
-    /* Much darker, nearly opaque brown */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: var(--color-earth-main);
+    /* Matching logo background */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     /* Brighter border */
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
@@ -67,22 +67,25 @@
 .desktop-nav {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 32px;
+    /* More breathing room */
 }
 
 .nav-link {
     font-family: var(--font-body);
-    font-size: 15px;
-    font-weight: 600;
-    /* Bolder */
+    font-size: 14px;
+    /* Slightly smaller for elegance */
+    font-weight: 500;
+    /* Not too bold */
     color: #ffffff;
-    /* Pure white */
+    text-transform: uppercase;
+    /* Professional look */
+    letter-spacing: 1px;
     text-decoration: none;
     position: relative;
     transition: color 0.3s;
     padding: 8px 0;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-    /* Added shadow for legibility */
+    opacity: 0.9;
 }
 
 .nav-link::after {

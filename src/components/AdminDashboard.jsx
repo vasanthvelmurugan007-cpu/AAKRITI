@@ -129,12 +129,13 @@ const AdminDashboard = ({ user, onClose }) => {
                 <>
                     <input type="text" placeholder="Title" value={formData.title || ''} onChange={e => setFormData({ ...formData, title: e.target.value })} required />
                     <textarea placeholder="Description" value={formData.description || ''} onChange={e => setFormData({ ...formData, description: e.target.value })} required />
+                    <input type="text" placeholder="Title" value={formData.title || ''} onChange={e => setFormData({ ...formData, title: e.target.value })} required />
+                    <textarea placeholder="Description" value={formData.description || ''} onChange={e => setFormData({ ...formData, description: e.target.value })} required />
                     <select value={formData.icon || 'BookOpen'} onChange={e => setFormData({ ...formData, icon: e.target.value })}>
                         <option value="BookOpen">BookOpen (Education)</option>
-                        <option value="Utensils">Utensils (Nutrition)</option>
-                        <option value="Users">Users (Livelihood)</option>
-                        <option value="Heart">Heart (Generic)</option>
-                        <option value="Globe">Globe (Environment)</option>
+                        <option value="HandHeart">HandHeart (Support)</option>
+                        <option value="Sun">Sun (Hope)</option>
+                        <option value="Heart">Heart (Love)</option>
                     </select>
                 </>
             );

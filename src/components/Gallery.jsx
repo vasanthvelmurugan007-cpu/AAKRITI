@@ -18,6 +18,21 @@ const INITIAL_IMAGES = [
     { id: 'img5', folderId: '1', url: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=1000", description: 'Community feast' },
 ];
 
+/**
+ * Optimizes Cloudinary URLs for thumbnail/preview display
+ * @param {string} url - Original Image URL
+ * @param {number} width - Target width
+ * @returns {string} Optimized URL
+ */
+const getOptimizedUrl = (url, width = 400) => {
+    if (!url) return '';
+    if (url.includes('cloudinary.com') && url.includes('/upload/')) {
+        // Insert transformation params for massive size reduction
+        return url.replace('/upload/', `/upload/w_${width},c_limit,q_auto,f_auto/`);
+    }
+    return url;
+};
+
 const Gallery = ({ user }) => {
     const [folders, setFolders] = useState([]);
     const [images, setImages] = useState([]);
@@ -168,6 +183,7 @@ const Gallery = ({ user }) => {
                                 className="folder-card create-card"
                                 onClick={handleCreateFolder}
                                 whileHover={{ scale: 1.05 }}
+                                style={{ aspectRatio: '1', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
                             >
                                 <Plus size={40} className="add-icon" />
                                 <span>Create Album</span>
@@ -179,27 +195,34 @@ const Gallery = ({ user }) => {
                                 key={folder.id}
                                 className="folder-card glass-panel"
                                 onClick={() => setCurrentFolder(folder)}
-                                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-                                style={{ overflow: 'hidden', padding: 0 }}
+                                whileHover={{ y: -5, transition: { duration: 0.3 } }}
+                                style={{
+                                    overflow: 'hidden',
+                                    padding: 0,
+                                    aspectRatio: '1', /* FORCE SQUARE */
+                                    position: 'relative'
+                                }}
                             >
                                 <div
                                     className="folder-cover"
                                     style={{
-                                        height: '200px',
-                                        backgroundImage: folder.cover_image ? `url(${folder.cover_image})` : 'none',
+                                        height: '100%', /* FILL CARD */
+                                        width: '100%',
+                                        backgroundImage: folder.cover_image ? `url(${getOptimizedUrl(folder.cover_image, 500)})` : 'none',
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
-                                        position: 'relative',
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        backgroundColor: 'rgba(0,0,0,0.2)'
+                                        backgroundColor: 'rgba(0,0,0,0.5)' /* Darken for text readability */
                                     }}
                                 >
                                     {!folder.cover_image && (
                                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                             <Folder size={48} color="var(--color-gold)" opacity={0.5} />
-                                            <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', marginTop: '8px' }}>Empty Album</span>
                                         </div>
                                     )}
 
@@ -211,7 +234,7 @@ const Gallery = ({ user }) => {
                                                 position: 'absolute',
                                                 top: 10,
                                                 right: 10,
-                                                zIndex: 10,
+                                                zIndex: 20,
                                                 background: '#ff4d4d',
                                                 border: 'none',
                                                 borderRadius: '50%',
@@ -229,19 +252,34 @@ const Gallery = ({ user }) => {
                                     )}
                                 </div>
 
-                                <div className="folder-details" style={{ padding: '1.5rem' }}>
+                                {/* Overlay Text at Bottom */}
+                                <div className="folder-details" style={{
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    padding: '1rem',
+                                    background: 'linear-gradient(to top, rgba(0,0,0,0.9), transparent)',
+                                    zIndex: 10
+                                }}>
                                     <h3 style={{
                                         color: 'var(--color-gold)',
-                                        marginBottom: '0.5rem',
+                                        marginBottom: '0.2rem',
                                         fontFamily: 'var(--font-heading)',
-                                        fontSize: '1.25rem'
+                                        fontSize: '1.2rem',
+                                        marginTop: 0
                                     }}>
                                         {folder.name}
                                     </h3>
                                     <p style={{
-                                        color: 'var(--color-text-secondary)',
-                                        fontSize: '0.9rem',
-                                        lineHeight: '1.5'
+                                        color: 'rgba(255,255,255,0.9)',
+                                        fontSize: '0.8rem',
+                                        lineHeight: '1.4',
+                                        margin: 0,
+                                        display: '-webkit-box',
+                                        WebkitLineClamp: 2,
+                                        WebkitBoxOrient: 'vertical',
+                                        overflow: 'hidden'
                                     }}>
                                         {folder.description}
                                     </p>
@@ -270,7 +308,11 @@ const Gallery = ({ user }) => {
                                 // If it's a Cloudinary/External URL, use it directly. Otherwise use local thumbnail.
                                 const isExternal = fullUrl && (fullUrl.startsWith('http') || fullUrl.startsWith('https'));
                                 const filename = fullUrl ? fullUrl.split('/').pop() : '';
-                                const thumbUrl = isExternal ? fullUrl : (filename ? getImageUrl(`api/thumbnail/${filename}`) : '');
+
+                                // Optimize external (Cloudinary) images or use local thumbnail endpoint
+                                const thumbUrl = isExternal
+                                    ? getOptimizedUrl(fullUrl, 400)
+                                    : (filename ? getImageUrl(`api/thumbnail/${filename}`) : '');
 
                                 return (
                                     <motion.div
@@ -279,7 +321,7 @@ const Gallery = ({ user }) => {
                                         onClick={() => setSelectedImage(fullUrl)}
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ duration: 0.4, delay: index * 0.05 }}
+                                        transition={{ duration: 0.3 }}
                                         whileHover={{ y: -5 }}
                                     >
                                         <img src={thumbUrl || fullUrl} alt={img.description} loading="lazy" />

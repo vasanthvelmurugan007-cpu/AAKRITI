@@ -101,9 +101,10 @@ async def startup():
         count = result.scalar()
         if count == 0:
             defaults = [
-                models.Pillar(title="Education", description="Lighting the path of knowledge for every child, bridging the gap between potential and opportunity.", image_url="/pillar_education.jpg", icon="BookOpen"),
-                models.Pillar(title="Nutrition", description="Nourishing bodies to fuel minds. Ensuring no child sleeps hungry through sustainable food security.", image_url="/pillar_nutrition.jpg", icon="Utensils"),
-                models.Pillar(title="Livelihoods", description="Empowering communities with skills and resources to build a self-reliant and dignified future.", image_url="/pillar_livelihood.jpg", icon="Users")
+                models.Pillar(title="Education", description="Unlocking potential through foundational learning and life skills.", image_url="/pillar_education.jpg", icon="BookOpen"),
+                models.Pillar(title="Support", description="Providing encouragement, capacity-building, and presence for self-reliance.", image_url="/pillar_nutrition.jpg", icon="HandHeart"),
+                models.Pillar(title="Hope", description="Planting seeds of transformation through acts of kindness.", image_url="/pillar_livelihood.jpg", icon="Sun"),
+                models.Pillar(title="Love", description="Driven by compassion, respect, and empathy.", image_url="/pillar_love.jpg", icon="Heart")
             ]
             session.add_all(defaults)
             print("Seeded Default Pillars")
@@ -112,9 +113,9 @@ async def startup():
         result = await session.execute(select(models.AdminUser).where(models.AdminUser.email == "admin"))
         user = result.scalar_one_or_none()
         if not user:
-            admin = models.AdminUser(email="admin", password_hash="admin", role="admin")
+            admin = models.AdminUser(email="admin", password_hash="Aakritii@2025", role="admin")
             session.add(admin)
-            print("Default Admin User Created (admin/admin)")
+            print("Default Admin User Created (admin/Aakritii@2025)")
             
         await session.commit()
 

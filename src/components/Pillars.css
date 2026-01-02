@@ -43,7 +43,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* Show wider image without cropping */
+    /* Show full image as requested */
     background: var(--color-earth-dark);
     /* Fill empty space */
     object-position: center;
