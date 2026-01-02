@@ -128,6 +128,49 @@
     display: none;
     background: none;
     color: white;
+    z-index: 1001;
+    /* Ensure above overlay */
+    position: relative;
+}
+
+/* Mobile Menu Overlay Styles */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(26, 22, 18, 0.98);
+    /* Deep brand color opacity */
+    backdrop-filter: blur(15px);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.mobile-menu nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+.mobile-menu nav a {
+    font-family: var(--font-accent);
+    font-size: 1.75rem;
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.mobile-menu nav a:hover {
+    color: var(--color-gold);
 }
 
 @media (max-width: 768px) {
@@ -137,5 +180,14 @@
 
     .mobile-toggle {
         display: block;
+    }
+
+    .logo-full-img {
+        height: 40px;
+        /* Smaller logo on mobile */
+    }
+
+    .logo-text {
+        font-size: 16px;
     }
 }

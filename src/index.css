@@ -203,6 +203,14 @@ button {
   padding: 0 24px;
 }
 
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    max-width: 100%;
+    padding: 0 16px;
+  }
+}
+
 .gold-text {
   color: var(--color-gold);
 }

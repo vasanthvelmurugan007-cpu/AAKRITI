@@ -17,6 +17,19 @@
     transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
+@media (max-width: 768px) {
+    .essence-content {
+        padding: 40px 24px;
+        width: 90%;
+        max-width: 100%;
+    }
+
+    .essence-text {
+        font-size: 1rem;
+        /* Slightly smaller text for mobile readability */
+    }
+}
+
 .essence-content:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
