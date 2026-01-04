@@ -10,153 +10,100 @@ const TriangularMesh = () => {
         let width, height;
         let particles = [];
 
-        // Configuration
-        const particleCount = window.innerWidth < 768 ? 20 : 40;
-        const particleSpeed = 0.2; // Reduced speed as requested
-        const connectionDistance = 150;
-        const connectionDistanceSq = connectionDistance * connectionDistance;
-        const mouseDistance = 250; // Increased interaction radius
+        // Configuration: "The Constellation"
+        // Fewer particles, cleaner lines, no heavy fills.
+        const particleCount = window.innerWidth < 768 ? 30 : 60;
+        const particleSpeed = 0.15; // Slow, majestic drift
+        const connectionDistance = 140;
 
-        // Resize Handler
-        const handleResize = () => {
+        const resize = () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            initParticles();
+            init();
         };
 
-        // Particle Class
-        class Particle {
+        class Star {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
                 this.vx = (Math.random() - 0.5) * particleSpeed;
                 this.vy = (Math.random() - 0.5) * particleSpeed;
-                this.size = Math.random() * 2 + 1;
-                this.neighbors = [];
+                this.size = Math.random() * 1.5;
+                this.alpha = Math.random();
+                this.alphaChange = (Math.random() * 0.02) - 0.01;
             }
 
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
 
-                // Seamless wrap
+                // Breathe effect
+                this.alpha += this.alphaChange;
+                if (this.alpha <= 0.1 || this.alpha >= 1) this.alphaChange *= -1;
+
                 if (this.x < 0) this.x = width;
                 if (this.x > width) this.x = 0;
                 if (this.y < 0) this.y = height;
                 if (this.y > height) this.y = 0;
+            }
 
-                // Mouse Interaction
-                const dx = mouseRef.current.x - this.x;
-                const dy = mouseRef.current.y - this.y;
-                const distSq = dx * dx + dy * dy;
-
-                if (distSq < mouseDistance * mouseDistance) {
-                    const angle = Math.atan2(dy, dx);
-                    const force = (mouseDistance - Math.sqrt(distSq)) / mouseDistance;
-
-                    // Gentle push that feels responsive
-                    const pushX = Math.cos(angle) * force * 1.5;
-                    const pushY = Math.sin(angle) * force * 1.5;
-
-                    this.vx -= pushX;
-                    this.vy -= pushY;
-                }
-
-                // Friction to return to normal speed
-                // This prevents them from flying off too fast after interaction
-                const maxSpeed = 2;
-                const v = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-                if (v > maxSpeed) {
-                    this.vx = (this.vx / v) * maxSpeed;
-                    this.vy = (this.vy / v) * maxSpeed;
-                }
-
-                this.neighbors = [];
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(201, 168, 117, ${this.alpha})`;
+                ctx.fill();
             }
         }
 
-        const initParticles = () => {
+        const init = () => {
             particles = [];
             for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
+                particles.push(new Star());
             }
         };
 
-        let animationFrameId;
-
+        let animationId;
         const animate = () => {
             ctx.clearRect(0, 0, width, height);
 
-            // 1. Update all particles
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-            }
+            // Update and Draw Particles
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
 
-            // 2. Find Neighbors
+            // Draw Connections (Constellation Lines)
+            ctx.strokeStyle = 'rgba(201, 168, 117, 0.15)'; // Very subtle gold
+            ctx.lineWidth = 0.5; // Fine lines
+
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
-                    const distSq = dx * dx + dy * dy;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
 
-                    if (distSq < connectionDistanceSq) {
-                        particles[i].neighbors.push(particles[j]);
-                        particles[j].neighbors.push(particles[i]);
+                    if (dist < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        // Opacity based on distance (fade out at usage)
+                        ctx.globalAlpha = 1 - (dist / connectionDistance);
+                        ctx.stroke();
+                        ctx.globalAlpha = 1;
                     }
                 }
             }
 
-            // 3. Draw Triangles
-            ctx.fillStyle = 'rgba(201, 168, 117, 0.1)';
-            ctx.strokeStyle = 'rgba(201, 168, 117, 0.15)';
-
-            for (let i = 0; i < particles.length; i++) {
-                const p1 = particles[i];
-                for (let j = 0; j < p1.neighbors.length; j++) {
-                    const p2 = p1.neighbors[j];
-
-                    for (let k = j + 1; k < p1.neighbors.length; k++) {
-                        const p3 = p1.neighbors[k];
-
-                        const dx = p2.x - p3.x;
-                        const dy = p2.y - p3.y;
-                        const distSq = dx * dx + dy * dy;
-
-                        if (distSq < connectionDistanceSq) {
-                            ctx.beginPath();
-                            ctx.moveTo(p1.x, p1.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.lineTo(p3.x, p3.y);
-                            ctx.closePath();
-                            ctx.fill();
-                            ctx.stroke();
-                        }
-                    }
-                }
-            }
-
-            animationFrameId = requestAnimationFrame(animate);
+            animationId = requestAnimationFrame(animate);
         };
 
-        // Mouse Move Listener
-        const handleMouseMove = (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouseRef.current = {
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
-            };
-        };
-
-        window.addEventListener('resize', handleResize);
-        window.addEventListener('mousemove', handleMouseMove);
-
-        handleResize(); // Init
+        window.addEventListener('resize', resize);
+        resize();
         animate();
 
         return () => {
-            window.removeEventListener('resize', handleResize);
-            window.removeEventListener('mousemove', handleMouseMove);
-            cancelAnimationFrame(animationFrameId);
+            window.removeEventListener('resize', resize);
+            cancelAnimationFrame(animationId);
         };
     }, []);
 
