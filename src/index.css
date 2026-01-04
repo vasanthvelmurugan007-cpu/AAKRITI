@@ -81,7 +81,30 @@ h6 {
   font-weight: 700;
   color: var(--color-text-primary);
   line-height: 1.25;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.05em;
+  /* Increased spacing */
+  text-transform: uppercase;
+  /* Professional Standard */
+}
+
+/* ... */
+
+/* Utilities */
+.container {
+  max-width: 1440px;
+  /* Wider professional standard */
+  /* Slightly wider for modern feel */
+  margin: 0 auto;
+  padding: 0 40px;
+  /* More breathing room */
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    max-width: 100%;
+    padding: 0 20px;
+  }
 }
 
 /* Animations */
@@ -202,10 +225,11 @@ button {
 
 /* Utilities */
 .container {
-  max-width: 1320px;
-  /* Slightly wider for modern feel */
+  max-width: 1440px;
+  /* Wider professional standard */
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 40px;
+  /* More breathing room */
 }
 
 @media (max-width: 768px) {
