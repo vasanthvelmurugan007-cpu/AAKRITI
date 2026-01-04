@@ -6,49 +6,74 @@ import './Hero.css';
 
 const Hero = () => {
     return (
-        <section className="hero-section">
-            <div className="hero-background"></div>
-            <div className="hero-overlay"></div>
+        <section className="hero-section" style={{ position: 'relative', height: '100vh', display: 'flex', alignItems: 'center' }}>
 
+            {/* 1. Background Image + Gradient Overlay */}
+            <div className="hero-background" style={{
+                position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0
+            }}>
+                {/* Image handled by CSS .hero-background, adding overlay here */}
+                <div style={{
+                    position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+                    background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.1) 100%)'
+                }}></div>
+            </div>
 
-            <div className="container hero-content">
+            <div className="container hero-content" style={{ position: 'relative', zIndex: 10, width: '100%' }}>
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1.2, ease: "easeOut" }}
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                    style={{ maxWidth: '650px' }}
                 >
-                    <h1 className="hero-title">
-                        <span style={{ display: 'block', fontSize: '2em', marginBottom: '0.2em' }} className="gold-gradient">AAKRITII NGO</span>
-                        <span>EMPOWER. TRANSFORM. </span>
-                        <span className="gold-gradient">INSPIRE.</span>
+                    {/* Small Accent Header */}
+                    <div style={{
+                        display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px'
+                    }}>
+                        <div style={{ width: '40px', height: '2px', background: 'var(--color-gold)' }}></div>
+                        <span style={{
+                            color: 'var(--color-gold)',
+                            fontWeight: '600',
+                            letterSpacing: '2px',
+                            textTransform: 'uppercase',
+                            fontSize: '0.9rem'
+                        }}>
+                            Empowering Communities
+                        </span>
+                    </div>
+
+                    {/* Main Title */}
+                    <h1 className="hero-title" style={{
+                        textAlign: 'left',
+                        fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                        lineHeight: '1.2',
+                        textShadow: '0 4px 20px rgba(0,0,0,0.3)',
+                        marginBottom: '24px'
+                    }}>
+                        Transforming Lives,<br />
+                        <span style={{ color: 'var(--color-gold)' }}>Enriching Futures.</span>
                     </h1>
-                </motion.div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                >
-                    <p className="hero-quote">
-                        A just and compassionate society where individuals from marginalized communities live with dignity, health, and purpose.
+                    {/* Subtitle */}
+                    <p style={{
+                        fontSize: '1.25rem',
+                        lineHeight: '1.6',
+                        color: 'rgba(255,255,255,0.9)',
+                        marginBottom: '40px',
+                        maxWidth: '540px'
+                    }}>
+                        We are Aakritii. A youth-driven force continuously working to uplift marginalized tribal communities through education, healthcare, and sustainable development.
                     </p>
-                    <p className="hero-subquote" style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.2rem', marginTop: '10px', fontStyle: 'italic' }}>
-                        Transforming hope into action!
-                    </p>
-                </motion.div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.8 }}
-                    className="hero-cta-wrapper"
-                >
-                    <a href="#essence" className="hero-btn">
-                        Our Mission
-                    </a>
-                    <a href="#volunteer" className="hero-btn-outline">
-                        Volunteer
-                    </a>
+                    {/* Buttons */}
+                    <div className="hero-cta-wrapper" style={{ justifyContent: 'flex-start' }}>
+                        <a href="#essence" className="hero-btn">
+                            Discover Our Mission
+                        </a>
+                        <a href="#volunteer" className="hero-btn-outline" style={{ marginLeft: '16px' }}>
+                            Join the Movement
+                        </a>
+                    </div>
                 </motion.div>
             </div>
 
