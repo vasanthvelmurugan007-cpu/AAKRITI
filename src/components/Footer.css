@@ -108,3 +108,14 @@
     opacity: 0.5;
     margin-top: 40px;
 }
+
+@media (max-width: 768px) {
+    .footer-links {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .sanskrit-text {
+        font-size: 1.8rem;
+    }
+}

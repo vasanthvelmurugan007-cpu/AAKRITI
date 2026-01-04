@@ -40,46 +40,46 @@ const VolunteerRegistration = () => {
                 margin: '0 auto',
                 padding: '0',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', /* Reduced min-width for mobile */
                 overflow: 'hidden',
                 border: '1px solid rgba(255,255,255,0.1)'
             }}>
 
                 {/* LEFT COLUMN: CONTEXT & IMPACT */}
                 <div style={{
-                    padding: '60px',
+                    padding: '40px', /* Reduced padding for mobile */
                     background: 'rgba(0,0,0,0.2)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center'
                 }}>
-                    <h2 className="section-title" style={{ textAlign: 'left', marginBottom: '20px' }}>Join the<br />Movement</h2>
-                    <p style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.8)', marginBottom: '40px', lineHeight: '1.6' }}>
-                        Your time and skills can light up lives. Become a part of Aakritii's mission to reshape narratives and build a more inclusive society.
+                    <h2 className="section-title" style={{ textAlign: 'left', marginBottom: '20px', fontSize: '2rem' }}>Join the<br />Movement</h2>
+                    <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.8)', marginBottom: '30px', lineHeight: '1.6' }}>
+                        Your time and skills can light up lives. Become a part of Aakritii's mission to reshape narratives.
                     </p>
 
-                    <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         {[
-                            'Mentorship & Education Support',
-                            'Healthcare Camps Coordination',
-                            'Livelihood Training Programs',
-                            'Event Management & Outreach'
+                            'Mentorship & Education',
+                            'Healthcare Camps',
+                            'Livelihood Training',
+                            'Event Management'
                         ].map((item, index) => (
                             <li key={index} style={{ display: 'flex', alignItems: 'center', gap: '15px', color: 'var(--color-gold-light)' }}>
-                                <div style={{ width: '8px', height: '8px', background: 'var(--color-gold)', borderRadius: '50%' }}></div>
-                                <span style={{ fontSize: '1.1rem' }}>{item}</span>
+                                <div style={{ width: '8px', height: '8px', background: 'var(--color-gold)', borderRadius: '50%', flexShrink: 0 }}></div>
+                                <span style={{ fontSize: '1rem' }}>{item}</span>
                             </li>
                         ))}
                     </ul>
                 </div>
 
                 {/* RIGHT COLUMN: PROFESSIONAL FORM */}
-                <div style={{ padding: '60px', background: 'rgba(255,255,255,0.02)' }}>
+                <div style={{ padding: '40px', background: 'rgba(255,255,255,0.02)' }}>
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 
                         {/* Name Field */}
                         <div>
-                            <label style={{ display: 'block', textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: '1px', marginBottom: '8px', color: 'rgba(255,255,255,0.6)' }}>
+                            <label style={{ display: 'block', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '1px', marginBottom: '8px', color: 'rgba(255,255,255,0.6)' }}>
                                 Full Name
                             </label>
                             <input
@@ -91,12 +91,12 @@ const VolunteerRegistration = () => {
                                 required
                                 style={{
                                     width: '100%',
-                                    padding: '16px 0',
+                                    padding: '12px 0',
                                     background: 'transparent',
                                     border: 'none',
                                     borderBottom: '1px solid rgba(255,255,255,0.2)',
                                     color: 'white',
-                                    fontSize: '1.1rem',
+                                    fontSize: '1rem',
                                     fontFamily: 'inherit',
                                     transition: 'border-color 0.3s'
                                 }}
@@ -105,10 +105,10 @@ const VolunteerRegistration = () => {
                             />
                         </div>
 
-                        {/* Contact Grid */}
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-                            <div>
-                                <label style={{ display: 'block', textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: '1px', marginBottom: '8px', color: 'rgba(255,255,255,0.6)' }}>
+                        {/* Contact Grid - Flex Wrap for Mobile Stacking */}
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px' }}>
+                            <div style={{ flex: '1 1 200px' }}> {/* Grow, Shrink, Basis 200px */}
+                                <label style={{ display: 'block', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '1px', marginBottom: '8px', color: 'rgba(255,255,255,0.6)' }}>
                                     Email
                                 </label>
                                 <input
@@ -120,20 +120,20 @@ const VolunteerRegistration = () => {
                                     required
                                     style={{
                                         width: '100%',
-                                        padding: '16px 0',
+                                        padding: '12px 0',
                                         background: 'transparent',
                                         border: 'none',
                                         borderBottom: '1px solid rgba(255,255,255,0.2)',
                                         color: 'white',
-                                        fontSize: '1.1rem',
+                                        fontSize: '1rem',
                                         fontFamily: 'inherit'
                                     }}
                                     onFocus={(e) => e.target.style.borderBottom = '1px solid var(--color-gold)'}
                                     onBlur={(e) => e.target.style.borderBottom = '1px solid rgba(255,255,255,0.2)'}
                                 />
                             </div>
-                            <div>
-                                <label style={{ display: 'block', textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: '1px', marginBottom: '8px', color: 'rgba(255,255,255,0.6)' }}>
+                            <div style={{ flex: '1 1 200px' }}>
+                                <label style={{ display: 'block', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '1px', marginBottom: '8px', color: 'rgba(255,255,255,0.6)' }}>
                                     Phone
                                 </label>
                                 <input
@@ -145,12 +145,12 @@ const VolunteerRegistration = () => {
                                     required
                                     style={{
                                         width: '100%',
-                                        padding: '16px 0',
+                                        padding: '12px 0',
                                         background: 'transparent',
                                         border: 'none',
                                         borderBottom: '1px solid rgba(255,255,255,0.2)',
                                         color: 'white',
-                                        fontSize: '1.1rem',
+                                        fontSize: '1rem',
                                         fontFamily: 'inherit'
                                     }}
                                     onFocus={(e) => e.target.style.borderBottom = '1px solid var(--color-gold)'}
