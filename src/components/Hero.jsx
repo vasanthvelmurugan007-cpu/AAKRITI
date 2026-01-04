@@ -37,7 +37,7 @@ const Hero = () => {
                         letterSpacing: '0.05em',
                         fontFamily: 'var(--font-accent)'
                     }}>
-                        AAKRITII
+                        AAKRITII NGO
                     </h1>
 
                     {/* Tagline */}
