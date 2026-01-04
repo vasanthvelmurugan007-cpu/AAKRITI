@@ -308,8 +308,12 @@ const AdminDashboard = ({ user, onClose }) => {
                                             </div>
                                         </div>
                                         <div className="item-actions">
-                                            <button onClick={() => handleEdit(item)}><Edit2 size={16} /></button>
-                                            <button onClick={() => handleDelete(item.id)} className="delete-btn"><Trash2 size={16} /></button>
+                                            <button onClick={() => handleEdit(item)} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                                <Edit2 size={16} /> Edit
+                                            </button>
+                                            <button onClick={() => handleDelete(item.id)} className="delete-btn" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                                <Trash2 size={16} /> Delete
+                                            </button>
                                         </div>
                                     </div>
                                 ))
