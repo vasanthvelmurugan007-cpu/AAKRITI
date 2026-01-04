@@ -11,10 +11,12 @@ const Clientele = () => {
     }, []);
 
     return (
-        <section id="clientele" className="section-spacing container" style={{ padding: '80px 24px' }}>
-            <div className="section-header">
-                <h2 className="section-title">Our Clientele</h2>
-                <p className="gold-text">Partners who trust and support our vision</p>
+        <section id="clientele" className="section-spacing container" style={{ padding: '120px 24px' }}>
+            <div className="section-header" style={{ marginBottom: '60px', textAlign: 'left' }}>
+                <span style={{ color: 'var(--color-gold)', letterSpacing: '2px', textTransform: 'uppercase', fontSize: '0.9rem', fontWeight: 'bold', display: 'block', marginBottom: '16px' }}>
+                    Our Network
+                </span>
+                <h2 className="section-title" style={{ fontSize: '3rem', margin: 0 }}>Strategic Partners</h2>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '40px', alignItems: 'center' }}>

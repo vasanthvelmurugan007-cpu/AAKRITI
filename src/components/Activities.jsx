@@ -11,57 +11,81 @@ const Activities = () => {
     }, []);
 
     return (
-        <section id="activities" className="section-spacing container" style={{ padding: '80px 24px' }}>
-            <div className="section-header">
-                <h2 className="section-title">Our Activities</h2>
-                <p className="gold-text">Making a difference on the ground</p>
+        <section id="activities" className="section-spacing container" style={{ padding: '120px 24px' }}>
+            <div className="section-header" style={{ marginBottom: '80px', textAlign: 'left' }}>
+                <span style={{ color: 'var(--color-gold)', letterSpacing: '2px', textTransform: 'uppercase', fontSize: '0.9rem', fontWeight: 'bold', display: 'block', marginBottom: '16px' }}>
+                    Impact in Action
+                </span>
+                <h2 className="section-title" style={{ fontSize: '3rem', margin: 0 }}>Recent Initiatives</h2>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '60px' }}>
                 {activities.length > 0 ? (
                     activities.map((activity, index) => (
-                        <div key={activity.id} className="glass-panel hover-lift"
+                        <div key={activity.id} className="glass-panel"
                             style={{
-                                display: 'flex',
-                                flexDirection: index % 2 === 0 ? 'row' : 'row-reverse',
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                                 overflow: 'hidden',
-                                minHeight: '300px'
+                                border: '1px solid rgba(255,255,255,0.08)'
                             }}>
 
-                            {/* Image Section */}
-                            <div style={{ flex: 1, minWidth: '300px' }}>
+                            {/* Image Section - Order depends on index for desktop visual interest */}
+                            <div style={{
+                                order: index % 2 === 0 ? 0 : 1,
+                                height: '400px',
+                                position: 'relative'
+                            }}>
                                 {activity.image_url ? (
-                                    <img
-                                        src={activity.image_url}
-                                        alt={activity.title}
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                    />
+                                    <div style={{
+                                        width: '100%', height: '100%',
+                                        backgroundImage: `url(${activity.image_url})`,
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                        filter: 'grayscale(20%)'
+                                    }}></div>
                                 ) : (
-                                    <div style={{ width: '100%', height: '100%', background: 'rgba(0,0,0,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <span style={{ color: 'var(--color-text-muted)' }}>No Image</span>
+                                    <div style={{ width: '100%', height: '100%', background: 'rgba(255,255,255,0.03)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                        <span style={{ color: 'var(--color-text-muted)' }}>Image Not Available</span>
                                     </div>
                                 )}
                             </div>
 
                             {/* Content Section */}
-                            <div style={{ flex: 1, padding: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-                                    <span style={{ color: 'var(--color-gold)', fontWeight: 'bold' }}>
-                                        {new Date(activity.date).toLocaleDateString()}
+                            <div style={{
+                                order: index % 2 === 0 ? 1 : 0,
+                                padding: '60px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                borderLeft: index % 2 === 0 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                                borderRight: index % 2 !== 0 ? '1px solid rgba(255,255,255,0.05)' : 'none'
+                            }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px' }}>
+                                    <span style={{
+                                        color: 'var(--color-gold)',
+                                        fontWeight: '600',
+                                        letterSpacing: '1px',
+                                        fontFamily: 'monospace',
+                                        fontSize: '1.1rem'
+                                    }}>
+                                        {new Date(activity.date).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).toUpperCase()}
                                     </span>
                                     {activity.location && (
                                         <span style={{
-                                            background: 'var(--color-gold-dim)',
+                                            border: '1px solid rgba(255,255,255,0.2)',
                                             padding: '4px 12px',
-                                            borderRadius: '20px',
-                                            fontSize: '0.8rem'
+                                            fontSize: '0.75rem',
+                                            textTransform: 'uppercase',
+                                            letterSpacing: '1px',
+                                            color: 'rgba(255,255,255,0.7)'
                                         }}>
                                             {activity.location}
                                         </span>
                                     )}
                                 </div>
-                                <h3 style={{ fontSize: '2rem', marginBottom: '16px' }}>{activity.title}</h3>
-                                <p style={{ color: 'var(--color-text-secondary)', lineHeight: '1.8' }}>
+                                <h3 style={{ fontSize: '2rem', marginBottom: '24px', lineHeight: '1.2' }}>{activity.title}</h3>
+                                <p style={{ color: 'var(--color-text-secondary)', lineHeight: '1.8', fontSize: '1.05rem' }}>
                                     {activity.description}
                                 </p>
                             </div>
