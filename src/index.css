@@ -6,7 +6,8 @@
 
 :root {
   /* Brand Colors - Restoring Client's Preferred Brown */
-  --color-earth-main: #5d4037;
+  --color-earth-main: #4a3027;
+  /* Darker Coffee */
   /* The specific requested color */
   --color-earth-dark: #2a2218;
   /* Darker shade for depth/shadows */
@@ -21,7 +22,8 @@
   --color-text-muted: rgba(255, 255, 255, 0.6);
 
   /* Effects - Superior to Upkriti's flat design */
-  --glass-surface: rgba(42, 34, 24, 0.35);
+  --glass-surface: rgba(20, 15, 10, 0.6);
+  /* Darker glass for better contrast */
   /* Brown-tinted glass */
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-blur: 24px;

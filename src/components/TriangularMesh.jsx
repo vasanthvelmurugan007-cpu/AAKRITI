@@ -10,11 +10,10 @@ const TriangularMesh = () => {
         let width, height;
         let particles = [];
 
-        // Configuration: "The Constellation"
-        // Fewer particles, cleaner lines, no heavy fills.
-        const particleCount = window.innerWidth < 768 ? 30 : 60;
-        const particleSpeed = 0.15; // Slow, majestic drift
-        const connectionDistance = 140;
+        // Configuration: "The Constellation" - Enhanced Visibility
+        const particleCount = window.innerWidth < 768 ? 35 : 70;
+        const particleSpeed = 0.4; // Faster motion
+        const connectionDistance = 160;
 
         const resize = () => {
             width = canvas.width = window.innerWidth;
@@ -28,8 +27,8 @@ const TriangularMesh = () => {
                 this.y = Math.random() * height;
                 this.vx = (Math.random() - 0.5) * particleSpeed;
                 this.vy = (Math.random() - 0.5) * particleSpeed;
-                this.size = Math.random() * 1.5;
-                this.alpha = Math.random();
+                this.size = Math.random() * 2 + 1; // Larger stars (1-3px)
+                this.alpha = Math.random() * 0.5 + 0.2; // Brighter baseline
                 this.alphaChange = (Math.random() * 0.02) - 0.01;
             }
 
@@ -39,7 +38,7 @@ const TriangularMesh = () => {
 
                 // Breathe effect
                 this.alpha += this.alphaChange;
-                if (this.alpha <= 0.1 || this.alpha >= 1) this.alphaChange *= -1;
+                if (this.alpha <= 0.2 || this.alpha >= 0.8) this.alphaChange *= -1;
 
                 if (this.x < 0) this.x = width;
                 if (this.x > width) this.x = 0;
@@ -73,8 +72,8 @@ const TriangularMesh = () => {
             });
 
             // Draw Connections (Constellation Lines)
-            ctx.strokeStyle = 'rgba(201, 168, 117, 0.15)'; // Very subtle gold
-            ctx.lineWidth = 0.5; // Fine lines
+            ctx.strokeStyle = 'rgba(201, 168, 117, 0.3)'; // Stronger lines (0.3 opacity)
+            ctx.lineWidth = 0.8; // Thicker lines
 
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
