@@ -26,33 +26,33 @@ const Hero = () => {
                     transition={{ duration: 1, ease: "easeOut" }}
                     style={{ maxWidth: '650px' }}
                 >
-                    {/* Small Accent Header */}
-                    <div style={{
-                        display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px'
-                    }}>
-                        <div style={{ width: '40px', height: '2px', background: 'var(--color-gold)' }}></div>
-                        <span style={{
-                            color: 'var(--color-gold)',
-                            fontWeight: '600',
-                            letterSpacing: '2px',
-                            textTransform: 'uppercase',
-                            fontSize: '0.9rem'
-                        }}>
-                            Empowering Communities
-                        </span>
-                    </div>
-
-                    {/* Main Title */}
+                    {/* Main Title - Brand Name */}
                     <h1 className="hero-title" style={{
                         textAlign: 'left',
-                        fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-                        lineHeight: '1.2',
-                        textShadow: '0 4px 20px rgba(0,0,0,0.3)',
-                        marginBottom: '24px'
+                        fontSize: 'clamp(3.5rem, 8vw, 6rem)',
+                        lineHeight: '1',
+                        marginBottom: '16px',
+                        color: '#ffffff',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        fontFamily: 'var(--font-accent)'
                     }}>
-                        Transforming Lives,<br />
-                        <span style={{ color: 'var(--color-gold)' }}>Enriching Futures.</span>
+                        AAKRITII
                     </h1>
+
+                    {/* Tagline */}
+                    <p style={{
+                        fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+                        letterSpacing: '0.3em',
+                        textTransform: 'uppercase',
+                        fontWeight: '600',
+                        color: 'var(--color-gold)',
+                        marginBottom: '40px',
+                        textAlign: 'left',
+                        display: 'block'
+                    }}>
+                        Empower. Inspire. Transform.
+                    </p>
 
                     {/* Subtitle */}
                     <p style={{
