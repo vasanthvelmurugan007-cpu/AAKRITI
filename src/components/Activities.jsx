@@ -27,7 +27,8 @@ const Activities = () => {
                                 display: 'grid',
                                 gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                                 overflow: 'hidden',
-                                border: '1px solid rgba(255,255,255,0.08)'
+                                border: '1px solid rgba(255,255,255,0.08)',
+                                borderRadius: '12px' /* Consistent 12px Radius */
                             }}>
 
                             {/* Image Section - Order depends on index for desktop visual interest */}
@@ -54,7 +55,7 @@ const Activities = () => {
                             {/* Content Section */}
                             <div style={{
                                 order: index % 2 === 0 ? 1 : 0,
-                                padding: '60px',
+                                padding: '40px', /* Generous 40px padding */
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
@@ -86,7 +87,7 @@ const Activities = () => {
                                 </div>
                                 <h3 style={{ fontSize: '2rem', marginBottom: '24px', lineHeight: '1.2' }}>{activity.title}</h3>
                                 <p style={{ color: 'var(--color-text-secondary)', lineHeight: '1.8', fontSize: '1.05rem' }}>
-                                    {activity.description}
+                                    {activity.description ? activity.description.replace(/BILOGICAL/g, 'BIOLOGICAL') : ''}
                                 </p>
                             </div>
                         </div>

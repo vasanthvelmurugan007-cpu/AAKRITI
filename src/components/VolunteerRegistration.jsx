@@ -91,14 +91,15 @@ const VolunteerRegistration = () => {
                                 required
                                 style={{
                                     width: '100%',
-                                    padding: '12px 0',
-                                    background: 'transparent',
-                                    border: 'none',
-                                    borderBottom: '1px solid rgba(255,255,255,0.2)',
+                                    padding: '12px 16px',
+                                    background: 'rgba(255, 255, 255, 0.05)', /* Subtle background tint */
+                                    border: '1px solid rgba(255, 255, 255, 0.2)', /* Clearer border */
+                                    borderRadius: '4px',
                                     color: 'white',
                                     fontSize: '1rem',
                                     fontFamily: 'inherit',
-                                    transition: 'border-color 0.3s'
+                                    transition: 'border-color 0.3s',
+                                    marginLeft: '0' /* Force left alignment */
                                 }}
                                 onFocus={(e) => e.target.style.borderBottom = '1px solid var(--color-gold)'}
                                 onBlur={(e) => e.target.style.borderBottom = '1px solid rgba(255,255,255,0.2)'}
@@ -120,10 +121,10 @@ const VolunteerRegistration = () => {
                                     required
                                     style={{
                                         width: '100%',
-                                        padding: '12px 0',
-                                        background: 'transparent',
-                                        border: 'none',
-                                        borderBottom: '1px solid rgba(255,255,255,0.2)',
+                                        padding: '12px 16px',
+                                        background: 'rgba(255, 255, 255, 0.05)',
+                                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                                        borderRadius: '4px',
                                         color: 'white',
                                         fontSize: '1rem',
                                         fontFamily: 'inherit'
@@ -145,10 +146,10 @@ const VolunteerRegistration = () => {
                                     required
                                     style={{
                                         width: '100%',
-                                        padding: '12px 0',
-                                        background: 'transparent',
-                                        border: 'none',
-                                        borderBottom: '1px solid rgba(255,255,255,0.2)',
+                                        padding: '12px 16px',
+                                        background: 'rgba(255, 255, 255, 0.05)',
+                                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                                        borderRadius: '4px',
                                         color: 'white',
                                         fontSize: '1rem',
                                         fontFamily: 'inherit'
@@ -173,10 +174,10 @@ const VolunteerRegistration = () => {
                                 required
                                 style={{
                                     width: '100%',
-                                    padding: '16px 0',
-                                    background: 'transparent',
-                                    border: 'none',
-                                    borderBottom: '1px solid rgba(255,255,255,0.2)',
+                                    padding: '16px',
+                                    background: 'rgba(255, 255, 255, 0.05)',
+                                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                                    borderRadius: '4px',
                                     color: 'white',
                                     fontSize: '1.1rem',
                                     fontFamily: 'inherit',

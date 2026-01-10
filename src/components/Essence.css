@@ -8,13 +8,13 @@
 .essence-content {
     max-width: 900px;
     margin: 0 auto;
-    padding: 80px 60px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(201, 168, 117, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    padding: 0;
+    /* Remove internal padding, let page handle it */
+    text-align: justify;
+    background: transparent;
+    /* Remove glass effect inside book */
+    border: none;
+    box-shadow: none;
 }
 
 @media (max-width: 768px) {
@@ -30,11 +30,7 @@
     }
 }
 
-.essence-content:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    border-color: rgba(201, 168, 117, 0.3);
-}
+/* Hover effect removed for book plain text feel */
 
 .section-header {
     margin-bottom: 40px;
@@ -49,7 +45,9 @@
 
 .essence-text {
     font-size: 1.125rem;
-    color: var(--color-text-secondary);
+    color: #E0D8C8;
+    /* Highlighted text color */
+    font-weight: 400;
     line-height: 1.8;
     margin-bottom: 32px;
 }
@@ -58,7 +56,8 @@
     font-family: var(--font-heading);
     font-style: italic;
     font-size: 1.5rem;
-    color: var(--color-gold-light);
+    color: var(--color-gold);
+    /* Brighter gold */
     position: relative;
     padding: 0 20px;
 }

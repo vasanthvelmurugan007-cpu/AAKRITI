@@ -30,6 +30,7 @@ const Footer = ({ onOpenLogin, user }) => {
                         <a href="#">Governance</a>
                         <a href="#">Financials</a>
                         <a href="#">Privacy</a>
+                        <button onClick={onOpenLogin} style={{ background: 'none', border: 'none', color: 'inherit', font: 'inherit', cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.8rem', padding: 0 }}>Admin</button>
                         <a href="#">Contact</a>
                     </div>
                 </div>

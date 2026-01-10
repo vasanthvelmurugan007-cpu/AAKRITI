@@ -13,18 +13,23 @@
     gap: 20px;
     position: relative;
     width: 100%;
-    padding: 0 20px;
-    min-height: 60px;
+    padding: 0 40px;
+    min-height: 80px;
     /* Ensure height for button */
 }
 
 /* Constrain title width to prevent overlap with absolute button */
+/* Centered header as anchor */
 .title-row .section-title {
-    max-width: calc(100% - 240px);
-    /* Leave 120px space on each side for balance */
+    max-width: 100%;
     margin: 0 auto;
     text-align: center;
     line-height: 1.3;
+    font-family: var(--font-accent);
+    letter-spacing: 0.15em;
+    border-bottom: 2px solid var(--color-gold);
+    display: inline-block;
+    padding-bottom: 10px;
 }
 
 .back-btn {
@@ -184,13 +189,16 @@
 }
 
 .gallery-item {
-    position: relative;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 2;
+    /* 3:2 Standard Aspect Ratio */
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: 12px;
+    /* Consistent 12px radius */
     cursor: pointer;
-    border: 1px solid rgba(201, 168, 117, 0.1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+    background: #000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 12px;
 }
 
 .gallery-item img {
@@ -198,29 +206,53 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    opacity: 0.9;
 }
 
+.gallery-item:hover img {
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+/* Removed overlay, now caption is below */
 .gallery-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(42, 34, 24, 0.7);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    padding: 20px;
-    text-align: center;
+    display: none;
 }
 
-.img-caption {
-    color: white;
+.gallery-caption-container {
+    padding: 8px 4px;
+    text-align: left;
+}
+
+.img-title {
+    font-family: var(--font-accent);
+    color: var(--color-text-body);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.img-desc {
+    font-family: var(--font-accent);
+    font-style: italic;
+    color: #666;
     font-size: 0.9rem;
-    margin-bottom: 12px;
+}
+
+/* Modern Grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 Column Fixed */
+    gap: 24px;
+    /* Uniform 24px gap */
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .delete-img-btn {

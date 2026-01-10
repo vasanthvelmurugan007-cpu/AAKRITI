@@ -1,6 +1,7 @@
 /* src/components/Pillars.css */
 .pillars-section {
-    padding: var(--section-spacing) 0;
+    padding: 20px 0;
+    /* Reduced from section-spacing (120px) to fit in book */
     position: relative;
     z-index: 1;
 }
@@ -9,7 +10,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
     gap: 40px;
-    margin-top: 5rem;
+    margin-top: 2rem;
+    /* Reduced from 5rem */
 }
 
 .pillar-card {

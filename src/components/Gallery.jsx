@@ -367,31 +367,37 @@ const Gallery = ({ user }) => {
                                 return (
                                     <motion.div
                                         key={img.id}
-                                        className="gallery-item"
-                                        onClick={() => setSelectedImage(fullUrl)}
+                                        style={{ display: 'flex', flexDirection: 'column' }}
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{ duration: 0.3 }}
-                                        whileHover={{ y: -5 }}
                                     >
-                                        <img
-                                            src={thumbUrl || fullUrl}
-                                            alt={img.description}
-                                            loading="lazy"
-                                            onError={(e) => {
-                                                e.target.onerror = null;
-                                                e.target.src = "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=400"; // Fallback
-                                            }}
-                                        />
-                                        <div className="gallery-overlay">
-                                            <p className="img-caption">{img.description}</p>
+                                        <div
+                                            className="gallery-item"
+                                            onClick={() => setSelectedImage(fullUrl)}
+                                        >
+                                            <img
+                                                src={thumbUrl || fullUrl}
+                                                alt={img.description}
+                                                loading="lazy"
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=400"; // Fallback
+                                                }}
+                                            />
+                                        </div>
+
+                                        {/* Caption Below Image */}
+                                        <div className="gallery-caption-container">
+                                            <div className="img-title">MEMORIES 2025</div>
+                                            <div className="img-desc">{img.description}</div>
+
                                             {user && (
                                                 <button
-                                                    className="delete-img-btn"
                                                     onClick={(e) => handleDeleteImage(img.id, e)}
-                                                    style={{ padding: '8px', borderRadius: '50%', background: '#ff6b6b', border: 'none', cursor: 'pointer' }}
+                                                    style={{ marginTop: '5px', padding: '4px 8px', fontSize: '0.8rem', background: '#ff6b6b', border: 'none', color: 'white', borderRadius: '4px', cursor: 'pointer' }}
                                                 >
-                                                    <Trash2 size={20} color="white" />
+                                                    Delete
                                                 </button>
                                             )}
                                         </div>

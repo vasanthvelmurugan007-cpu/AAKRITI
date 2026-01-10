@@ -7,19 +7,22 @@
 :root {
   /* Brand Colors - Restoring Client's Preferred Brown */
   --color-earth-main: #4a3027;
-  /* Darker Coffee */
-  /* The specific requested color */
   --color-earth-dark: #2a2218;
-  /* Darker shade for depth/shadows */
+  --color-midnight: #1A1612;
+  /* New Deep Focus Color */
 
   --color-gold: #c9a875;
   --color-gold-light: #e6cfa3;
   --color-gold-dim: #8a6e40;
+  --color-amber-glow: rgba(255, 191, 0, 0.15);
+  /* Soft warm glow */
 
   /* Text - High Contrast for Brown Background */
   --color-text-primary: #ffffff;
   --color-text-secondary: rgba(255, 255, 255, 0.9);
   --color-text-muted: rgba(255, 255, 255, 0.6);
+  --color-text-body: #2D2D2D;
+  /* New Dark Body Text for Book Pages */
 
   /* Effects - Superior to Upkriti's flat design */
   --glass-surface: rgba(20, 15, 10, 0.6);
@@ -54,12 +57,12 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--color-earth-main);
-  /* The specific requested brown */
-  /* Adding a subtle noise/gradient overlay to make it "premium" rather than just "paint" */
+  background-color: var(--color-midnight);
+  /* Deep Midnight Brown with focusing radial gradient */
   background-image:
-    radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.1) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(0, 0, 0, 0.2) 0px, transparent 50%);
+    radial-gradient(circle at center, rgba(74, 48, 39, 0.2) 0%, rgba(26, 22, 18, 0.95) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-attachment: fixed;
   color: var(--color-text-primary);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
@@ -138,6 +141,7 @@ h6 {
   background: linear-gradient(90deg, var(--color-gold) 0%, #fff 50%, var(--color-gold) 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shimmer 8s ease-in-out infinite;
 }
@@ -289,6 +293,7 @@ button {
   margin: 50px auto;
 }
 
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -297,4 +302,205 @@ button {
   100% {
     transform: rotate(360deg);
   }
+}
+
+@keyframes float-drifting {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  33% {
+    transform: translate(10px, -15px) rotate(5deg);
+  }
+
+  66% {
+    transform: translate(-5px, 10px) rotate(-3deg);
+  }
+
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+.floating-icon {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.1;
+  animation: float-drifting 10s ease-in-out infinite;
+  color: var(--color-gold);
+}
+
+/* --- CINEMATIC TITLE CARD STYLES --- */
+.cinematic-cover {
+  background: radial-gradient(circle at center, #2e241c 0%, #1a1510 100%);
+  color: var(--color-gold);
+  display: flex !important;
+  /* Force flex for the book page */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid var(--color-gold);
+  box-shadow: inset 0 0 50px #000;
+  position: relative;
+  overflow: hidden;
+}
+
+.cinematic-title {
+  font-family: var(--font-accent);
+  font-size: 5rem;
+  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, #fff4e0 0%, var(--color-gold) 40%, #b8860b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px rgba(201, 168, 117, 0.5));
+  animation: fadeInUp 1.5s ease-out both;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.cinematic-subtitle {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  animation: fadeInUp 1.5s ease-out 0.5s both;
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.swipe-instruction {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-gold-light);
+  opacity: 0.7;
+  animation: pulse-gold 2s infinite ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.swipe-arrow {
+  display: inline-block;
+  font-size: 1.2rem;
+  animation: slide-hint 1.5s infinite;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-hint {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+}
+
+/* Enhancing Text Colors in Book */
+.page-body p {
+  color: #2c241b;
+  /* Darker brown for better contrast */
+  font-weight: 400;
+}
+
+/* --- INNOVATIVE & CREATIVE ADDITIONS --- */
+
+/* Massive Hollow Typography */
+.text-huge-outline {
+  font-size: clamp(4rem, 15vw, 12rem);
+  font-family: var(--font-accent);
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
+  opacity: 0.5;
+}
+
+/* Modern Gradient Text */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #fff 0%, var(--color-gold) 50%, #fff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shimmer 5s linear infinite;
+}
+
+/* Magnetic Button Effect (Simulated via CSS) */
+.btn-magnetic {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  background: var(--color-gold);
+  color: var(--color-earth-dark);
+  font-weight: 700;
+  padding: 16px 40px;
+  border-radius: 50px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: 1px solid var(--color-gold);
+}
+
+.btn-magnetic:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 10px 30px rgba(201, 168, 117, 0.4);
+  background: transparent;
+  color: var(--color-gold);
+}
+
+/* Bento Grid Layout Utility */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 24px;
+}
+
+.bento-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 32px;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bento-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-5px);
+  border-color: rgba(201, 168, 117, 0.3);
+}
+
+/* Smooth Image Reveal */
+.reveal-image {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.reveal-image.visible {
+  clip-path: inset(0 0 0 0);
 }

@@ -3,6 +3,46 @@ import { motion } from 'framer-motion';
 import { BookOpen, Utensils, Users, Globe, Heart, HandHeart, Sun } from 'lucide-react';
 import { apiFetch } from '../utils/api';
 import './Pillars.css';
+import { useMotionValue, useTransform } from 'framer-motion';
+
+const TiltCard = ({ pillar, index, getIcon }) => {
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+    const rotateX = useTransform(y, [-100, 100], [10, -10]);
+    const rotateY = useTransform(x, [-100, 100], [-10, 10]);
+
+    return (
+        <motion.div
+            className="pillar-card glass-panel"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.2 }}
+            style={{ x, y, rotateX, rotateY, cursor: 'none' }} // cursor: none so custom cursor shows
+            onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                x.set(e.clientX - rect.left - rect.width / 2);
+                y.set(e.clientY - rect.top - rect.height / 2);
+            }}
+            onMouseLeave={() => {
+                x.set(0);
+                y.set(0);
+            }}
+            whileHover={{ scale: 1.05, boxShadow: "0px 20px 40px rgba(201, 168, 117, 0.3)" }}
+        >
+            <div className="pillar-image-wrapper">
+                <img src={pillar.image_url || pillar.image} alt={pillar.title} className="pillar-image" />
+                <div className="pillar-icon-overlay">
+                    {getIcon(pillar.icon)}
+                </div>
+            </div>
+            <div className="pillar-content">
+                <h3 className="pillar-title">{pillar.title}</h3>
+                <p className="pillar-desc">{pillar.description}</p>
+            </div>
+        </motion.div>
+    );
+};
 
 const pillarsData = [
     {
@@ -70,27 +110,7 @@ const Pillars = () => {
 
                 <div className="pillars-grid">
                     {pillars.map((pillar, index) => (
-                        <motion.div
-                            key={pillar.id}
-                            className="pillar-card glass-panel"
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.2 }}
-                            whileHover={{ y: -10 }}
-                        >
-                            <div className="pillar-image-wrapper">
-                                <img src={pillar.image_url || pillar.image} alt={pillar.title} className="pillar-image" />
-                                <div className="pillar-icon-overlay">
-                                    {getIcon(pillar.icon)}
-                                </div>
-                            </div>
-                            <div className="pillar-content">
-                                <h3 className="pillar-title">{pillar.title}</h3>
-                                <p className="pillar-desc">{pillar.description}</p>
-                                {/* <a href="#" className="pillar-link">Learn More &rarr;</a> */}
-                            </div>
-                        </motion.div>
+                        <TiltCard key={pillar.id} pillar={pillar} index={index} getIcon={getIcon} />
                     ))}
                 </div>
             </div>
